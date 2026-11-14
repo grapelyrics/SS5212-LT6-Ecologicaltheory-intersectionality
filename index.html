@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SS5212 LT7 × Lecture 10 Case Quiz</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: Arial, sans-serif;
+      line-height: 1.55;
+      color: #25314a;
+      background: #f2f5fa;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #29477e;
+      line-height: 1.25;
+      font-size: 1.8rem;
+    }
+
+    .card,
+    .question,
+    .result {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px;
+      margin: 16px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #eaf0ff;
+      color: #31529b;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .question h2 {
+      margin: 12px 0;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      margin: 7px 0;
+      padding: 10px;
+      background: #f7f9fc;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    label:hover {
+      background: #edf2ff;
+    }
+
+    input[type="radio"] {
+      margin-right: 8px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 13px 18px;
+      margin: 8px 8px 8px 0;
+      background: #3158ad;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #24458e;
+    }
+
+    .reset-button {
+      background: #69758a;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #edf3ff;
+    }
+
+    .correct {
+      color: #14743a;
+      font-weight: bold;
+    }
+
+    .incorrect {
+      color: #b42929;
+      font-weight: bold;
+    }
+
+    .result {
+      display: none;
+      border-left: 5px solid #3158ad;
+    }
+
+    .small {
+      color: #526078;
+      font-size: 0.9rem;
+    }
+
+    #progress {
+      color: #31529b;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h1>SS5212 LT7 × Lecture 10 Case Quiz</h1>
+
+  <div class="card">
+    <p><strong>50 original multiple-choice questions</strong></p>
+
+    <p>
+      Most questions use short social work cases. Choose one
+      answer for each question, then press
+      <strong>Submit answers</strong> to see your score and
+      Chinese explanations.
+    </p>
+
+    <p>
+      ⭐ <strong>Core:</strong> topics overlapping with Lecture 10.<br>
+      📘 <strong>Supplementary:</strong> additional concepts from
+      the Lecture 7 supplementary material.
+    </p>
+
+    <p class="small">
+      This is an original practice quiz, not a verified CityU past
+      paper. No ACE scoring or stress response questions are included.
+    </p>
+
+    <p class="small">
+      Answer selections are saved when browser storage is available.
+      They are stored only in this browser on this device.
+      Clearing browser data or using private browsing may remove them.
+      Answer options are shuffled each time the page loads.
+    </p>
+
+    <p id="progress" aria-live="polite"></p>
+    <p id="storageMessage" class="small" aria-live="polite"></p>
+  </div>
+
+  <div id="result" class="result" aria-live="polite"></div>
+
+  <form id="quiz"></form>
+
+  <button type="button" id="submitButton">
+    Submit answers
+  </button>
+
+  <button type="button" id="resetButton" class="reset-button">
+    Reset quiz
+  </button>
+
+</div>
+
+<script>
+/*
+  Each question has four options.
+  The first option in the data is the correct answer.
+
+  The display order is shuffled on each page load.
+  Saved answers refer to the original option index,
+  so progress remains meaningful after reshuffling.
+*/
+
+const questions = [
+
+  // ==================================================
+  // Q1–22: BRONFENBRENNER'S ECOLOGICAL SYSTEMS
+  // ==================================================
+
+  {
+    tag: "⭐ Core — Ecological person",
+    q: "A school social worker meets a teenager whose attendance has declined. Before examining relationships and policies, the worker explores the student's own health, developmental stage, preferences and experiences. Which part of Bronfenbrenner's model is the immediate focus?",
+    options: [
+      "The active, developing person",
+      "The mesosystem",
+      "The exosystem",
+      "The macrosystem"
+    ],
+    explanation: "個人的健康、發展狀態及經驗屬「person」。Bronfenbrenner 不把個人視為被動接受環境影響的容器。"
+  },
+
+  {
+    tag: "⭐ Core — Microsystem",
+    q: "A teenager regularly attends a youth centre and speaks directly with its social worker. From the teenager's perspective, the youth centre is most directly an example of:",
+    options: [
+      "A microsystem",
+      "An exosystem",
+      "A chronosystem",
+      "A macrosystem"
+    ],
+    explanation: "青少年直接參與並互動的場所，是其 microsystem。分類要先確定「誰」是分析對象。"
+  },
+
+  {
+    tag: "⭐ Core — Microsystem",
+    q: "A child meets a teacher every weekday and discusses schoolwork with her. In ecological terms, the direct child–teacher interaction is most clearly located in the child's:",
+    options: [
+      "Microsystem",
+      "Exosystem",
+      "Macrosystem",
+      "Chronosystem"
+    ],
+    explanation: "孩子與老師直接互動，屬孩子在學校 microsystem 中的關係。"
+  },
+
+  {
+    tag: "⭐ Core — Mesosystem",
+    q: "A caregiver and a class teacher meet to coordinate support for a student who has been absent. Which concept best describes the connection between the student's home and school settings?",
+    options: [
+      "Mesosystem",
+      "Microsystem",
+      "Exosystem",
+      "Macrosystem"
+    ],
+    explanation: "家庭與學校都是學生的直接環境；兩個直接環境之間的連結是 mesosystem。"
+  },
+
+  {
+    tag: "⭐ Core — Micro vs meso",
+    q: "A social worker interviews a child about her relationship with her father, then studies how the father and the child's teacher communicate. Which pairing best describes the two focal relationships?",
+    options: [
+      "Child–father: microsystem; father–teacher: mesosystem",
+      "Child–father: exosystem; father–teacher: macrosystem",
+      "Child–father: macrosystem; father–teacher: chronosystem",
+      "Both are necessarily exosystems"
+    ],
+    explanation: "孩子直接與父親互動是 microsystem；父親與老師連結孩子的家庭和學校，屬 mesosystem。"
+  },
+
+  {
+    tag: "⭐ Core — Exosystem",
+    q: "A parent's employer changes shift schedules. The child does not participate in the workplace, but the new hours reduce the parent's availability at home. For the child, the workplace is most directly:",
+    options: [
+      "An exosystem",
+      "A microsystem",
+      "A mesosystem",
+      "A personal characteristic"
+    ],
+    explanation: "孩子沒有直接參與父母的工作場所，但工作場所的變化透過家庭影響孩子，屬 exosystem。"
+  },
+
+  {
+    tag: "⭐ Core — Exosystem",
+    q: "A hospital team changes a mother's appointment schedule. Her adolescent son is not involved in those meetings, but the new schedule affects transport arrangements at home. For the son, the hospital team's decision-making setting is best viewed as:",
+    options: [
+      "An exosystem influence",
+      "His direct microsystem interaction",
+      "His biological trait",
+      "A historical period"
+    ],
+    explanation: "兒子沒有參與醫療團隊會議，但決策間接影響家庭安排，符合 exosystem。"
+  },
+
+  {
+    tag: "⭐ Core — Macrosystem",
+    q: "A practitioner examines how broad social beliefs about disability shape expectations in workplaces, families and schools. In Bronfenbrenner's model, these broad beliefs are most directly part of the:",
+    options: [
+      "Macrosystem",
+      "Mesosystem",
+      "Microsystem",
+      "Person level"
+    ],
+    explanation: "廣泛文化信念和社會規範屬 macrosystem；它們可以滲透並影響其他系統。"
+  },
+
+  {
+    tag: "⭐ Core — Chronosystem",
+    q: "A family experienced relocation, school changes and unemployment over several years. A practitioner considers the timing and sequence of these changes. Which ecological concept is most directly highlighted?",
+    options: [
+      "Chronosystem",
+      "Microsystem",
+      "Mesosystem",
+      "Person level only"
+    ],
+    explanation: "Chronosystem 特別關注時間、生命轉變及歷史事件。它可與其他系統一起分析，不是只能單獨使用。"
+  },
+
+  {
+    tag: "⭐ Core — Exo vs macro",
+    q: "A researcher separates two influences on a child: a parent's particular workplace changes its roster, while wider cultural expectations shape how workplaces treat caregiving. Which pairing is most appropriate?",
+    options: [
+      "Workplace roster: exosystem; wider cultural expectations: macrosystem",
+      "Workplace roster: macrosystem; cultural expectations: microsystem",
+      "Both are necessarily mesosystems",
+      "Both are individual personality traits"
+    ],
+    explanation: "對沒有參與該職場的孩子而言，具體職場安排可屬 exosystem；廣泛文化期待屬 macrosystem。"
+  },
+
+  {
+    tag: "⭐ Core —
